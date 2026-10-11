@@ -88,6 +88,7 @@ footer{margin-top:40px;padding-top:20px;border-top:2px dashed #cfc6b8;font-size:
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
+<script data-goatcounter="https://horsdeslignes.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <div class="wrap">
@@ -156,7 +157,7 @@ footer{margin-top:40px;padding-top:20px;border-top:2px dashed #cfc6b8;font-size:
             <li><span><strong>Publie-la</strong> en taguant <span class="tag">@hors.deslignes</span> sur Instagram ou <span class="tag">@horsdelignes</span> sur TikTok, avec <span class="tag">#LordWasabi</span>.</span></li>
             <li><span><strong>Les coloriages coups de cœur</strong> pourront être imprimés dans le livre, en exemple, avec ton pseudo.</span></li>
           </ol>
-          <a class="btn wide" style="margin-top:18px" href="../gratuit/lord-wasabi-page-gratuite.pdf" download>Télécharger la page (PDF)</a>
+          <a class="btn wide" style="margin-top:18px" href="../gratuit/lord-wasabi-page-gratuite.pdf" download onclick="try{window.goatcounter&&window.goatcounter.count({path:'pdf-lord-wasabi',title:'pdf-lord-wasabi',event:true})}catch(e){}">Télécharger la page (PDF)</a>
           <p class="small" style="margin-top:14px">Participation gratuite et sans achat. Sélection libre par l'auteur. Si ton coloriage est retenu, on te contacte en message privé et rien n'est publié sans ton accord écrit. Ouvert aux 18 ans et plus (ou avec l'accord d'un parent).</p>
         </div>
       </div>
@@ -245,6 +246,8 @@ footer{margin-top:40px;padding-top:20px;border-top:2px dashed #cfc6b8;font-size:
   var ORDER = ["W","R","N","T","P"]; // départage en cas d'égalité
 
   var $ = function(id){return document.getElementById(id)};
+  // Statistiques GoatCounter (sans cookies) : n'échoue jamais si le script est bloqué
+  function track(name){ try { if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({path: name, title: name, event: true}); } catch(e){} }
   var screens = {intro:$("intro"), quiz:$("quiz"), result:$("result")};
   var idx = 0, scores = {}, locked = false, current = null, currentKey = "";
 
@@ -297,6 +300,7 @@ footer{margin-top:40px;padding-top:20px;border-top:2px dashed #cfc6b8;font-size:
     cta.textContent = current.cta; cta.href = current.url;
     if (current.url.charAt(0) === "#") { cta.removeAttribute("target"); }
     else { cta.setAttribute("target","_blank"); }
+    track("quiz-resultat-" + key);
     try { history.replaceState(null, "", "#resultat-" + key); } catch(e){}
     show("result");
   }
@@ -315,10 +319,12 @@ footer{margin-top:40px;padding-top:20px;border-top:2px dashed #cfc6b8;font-size:
       $("start").textContent = "Relever le défi";
     }
   } catch(e){}
-  $("start").addEventListener("click", function(){ reset(); render(); show("quiz"); });
+  $("start").addEventListener("click", function(){ track(ami && PROFILES[ami] ? "quiz-debut-via-ami" : "quiz-debut"); reset(); render(); show("quiz"); });
+  $("r-cta").addEventListener("click", function(){ if (currentKey && currentKey !== "W") track("quiz-amazon-" + currentKey); });
   $("restart").addEventListener("click", function(){ reset(); render(); show("quiz"); });
   $("share").addEventListener("click", function(){
     if (!current) return;
+    track("quiz-partage-" + currentKey);
     var text = "Je suis « " + current.title + " » 😂 Et toi, quel survivant es-tu ?";
     var url = "https://horsdeslignes.fr/quiz/?ami=" + currentKey;
     // 1) Fenêtre de partage native du téléphone (Chrome, Safari…)
