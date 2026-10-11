@@ -72,6 +72,15 @@ h3{font-size:20px;font-weight:700}
 .friend .em{font-size:28px;line-height:1}
 .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%) translateY(120%);background:var(--ink);color:#fff;padding:12px 18px;border-radius:999px;font-weight:600;font-size:15px;transition:transform .2s ease;z-index:10}
 .toast.on{transform:translateX(-50%) translateY(0)}
+/* feuille de partage (secours quand le partage natif est indisponible) */
+.sheet-bg{position:fixed;inset:0;background:rgba(22,20,18,.45);z-index:20;display:flex;align-items:flex-end;justify-content:center}
+.sheet{width:100%;max-width:520px;background:var(--paper);border:2px solid var(--ink);border-bottom:0;border-radius:22px 22px 0 0;padding:18px 16px calc(20px + env(safe-area-inset-bottom))}
+.sheet h3{margin:0 0 4px}
+.sheet p{margin:0 0 14px;font-size:14px;color:var(--muted)}
+.sheet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.sh{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px;border:2px solid var(--ink);border-radius:14px;background:#fff;color:var(--ink);text-decoration:none;font:600 13px/1.2 Inter,sans-serif;cursor:pointer;box-shadow:2px 2px 0 var(--ink)}
+.sh .ic{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:#fff;font:800 17px/1 Inter,sans-serif}
+.sheet .btn{margin-top:14px}
 [hidden]{display:none!important}
 footer{margin-top:40px;padding-top:20px;border-top:2px dashed #cfc6b8;font-size:14px;color:var(--muted);display:flex;flex-wrap:wrap;gap:8px 16px}
 @media (min-width:560px){
@@ -170,6 +179,21 @@ footer{margin-top:40px;padding-top:20px;border-top:2px dashed #cfc6b8;font-size:
   </footer>
 </div>
 <div class="toast" id="toast" role="status"></div>
+<div class="sheet-bg" id="sheet" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+    <h3 id="sheet-title">Partager mon résultat</h3>
+    <p>Pour Instagram ou TikTok&nbsp;: copie le lien et colle-le dans ta story ou ta bio.</p>
+    <div class="sheet-grid">
+      <a class="sh" id="sh-wa" target="_blank" rel="noopener"><span class="ic" style="background:#25d366">W</span>WhatsApp</a>
+      <a class="sh" id="sh-sms"><span class="ic" style="background:#3b82f6">✉</span>SMS</a>
+      <a class="sh" id="sh-ms"><span class="ic" style="background:#0a7cff">M</span>Messenger</a>
+      <a class="sh" id="sh-fb" target="_blank" rel="noopener"><span class="ic" style="background:#1877f2">f</span>Facebook</a>
+      <a class="sh" id="sh-mail"><span class="ic" style="background:#5f5850">@</span>E-mail</a>
+      <button class="sh" id="sh-copy" type="button"><span class="ic" style="background:#161412">⧉</span>Copier le lien</button>
+    </div>
+    <button class="btn alt wide" id="sheet-close" type="button">Fermer</button>
+  </div>
+</div>
 
 <script>
 (function(){
@@ -315,12 +339,42 @@ footer{margin-top:40px;padding-top:20px;border-top:2px dashed #cfc6b8;font-size:
     if (!current) return;
     var text = "Je suis « " + current.title + " » 😂 Et toi, quel survivant es-tu ?";
     var url = "https://horsdeslignes.fr/quiz/?ami=" + currentKey;
+    // 1) Fenêtre de partage native du téléphone (Chrome, Safari…)
     if (navigator.share) {
-      navigator.share({title:"Quel survivant es-tu ?", text:text, url:url}).catch(function(){});
-    } else if (navigator.clipboard) {
-      navigator.clipboard.writeText(text + " " + url).then(function(){ toast("Lien copié, à toi de jouer !"); }, function(){ toast(url); });
-    } else { toast(url); }
+      navigator.share({title:"Quel survivant es-tu ?", text:text, url:url}).catch(function(err){
+        // annulé par l'utilisateur = on ne fait rien ; refusé par le navigateur = feuille de secours
+        if (!err || err.name !== "AbortError") openSheet(text, url);
+      });
+    } else {
+      // 2) Navigateurs intégrés (Instagram, TikTok, Facebook…) sans partage natif
+      openSheet(text, url);
+    }
   });
+  function openSheet(text, url){
+    var full = text + " " + url, e = encodeURIComponent;
+    $("sh-wa").href = "https://wa.me/?text=" + e(full);
+    $("sh-sms").href = (/iPhone|iPad|iPod/.test(navigator.userAgent) ? "sms:&body=" : "sms:?body=") + e(full);
+    $("sh-ms").href = "fb-messenger://share/?link=" + e(url);
+    $("sh-fb").href = "https://www.facebook.com/sharer/sharer.php?u=" + e(url);
+    $("sh-mail").href = "mailto:?subject=" + e("Quel survivant es-tu ?") + "&body=" + e(full);
+    $("sh-copy").onclick = function(){ copy(full); };
+    $("sheet").hidden = false;
+  }
+  function closeSheet(){ $("sheet").hidden = true; }
+  $("sheet-close").addEventListener("click", closeSheet);
+  $("sheet").addEventListener("click", function(ev){ if (ev.target === this) closeSheet(); });
+  document.addEventListener("keydown", function(ev){ if (ev.key === "Escape") closeSheet(); });
+  function copy(str){
+    function done(){ closeSheet(); toast("Lien copié, à toi de jouer !"); }
+    function legacy(){
+      var ta = document.createElement("textarea"); ta.value = str; ta.setAttribute("readonly","");
+      ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.select();
+      var ok = false; try { ok = document.execCommand("copy"); } catch(e){}
+      document.body.removeChild(ta); ok ? done() : toast(str);
+    }
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(str).then(done, legacy);
+    else legacy();
+  }
 })();
 </script>
 </body>
