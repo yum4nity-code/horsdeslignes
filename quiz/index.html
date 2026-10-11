@@ -67,6 +67,9 @@ h3{font-size:20px;font-weight:700}
 .steps li::before{content:counter(s);display:grid;place-items:center;width:32px;height:32px;border:2px solid var(--ink);border-radius:50%;background:var(--accent);font:800 15px/1 "Bricolage Grotesque",sans-serif}
 .tag{font-weight:600;background:var(--wasabi-soft);padding:1px 6px;border-radius:6px;white-space:nowrap}
 .small{font-size:13px;color:var(--muted);line-height:1.5}
+.friend{display:flex;gap:12px;align-items:center;background:var(--wasabi-soft);border:2px solid var(--ink);border-radius:14px;box-shadow:3px 3px 0 var(--ink);padding:14px 16px;margin-bottom:22px;font-size:16px}
+.friend b{font-family:"Bricolage Grotesque",sans-serif;font-size:18px}
+.friend .em{font-size:28px;line-height:1}
 .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%) translateY(120%);background:var(--ink);color:#fff;padding:12px 18px;border-radius:999px;font-weight:600;font-size:15px;transition:transform .2s ease;z-index:10}
 .toast.on{transform:translateX(-50%) translateY(0)}
 [hidden]{display:none!important}
@@ -89,6 +92,7 @@ footer{margin-top:40px;padding-top:20px;border-top:2px dashed #cfc6b8;font-size:
 
   <!-- ÉCRAN 1 : accueil -->
   <main id="intro">
+    <div class="friend" id="friend" hidden><span class="em">👀</span><span>Ton ami·e est <b id="friend-title"></b>. Et toi&nbsp;?</span></div>
     <span class="kicker">Le test (très sérieux)</span>
     <h1>Quel survivant es-tu&nbsp;?</h1>
     <p class="lead">Réunions, repas de famille, retraite, salle des profs… ou au service d'un chat qui se prend pour un seigneur. 7 questions pour savoir ce qui te fait vraiment souffrir.</p>
@@ -236,7 +240,7 @@ footer{margin-top:40px;padding-top:20px;border-top:2px dashed #cfc6b8;font-size:
 
   var $ = function(id){return document.getElementById(id)};
   var screens = {intro:$("intro"), quiz:$("quiz"), result:$("result")};
-  var idx = 0, scores = {}, locked = false, current = null;
+  var idx = 0, scores = {}, locked = false, current = null, currentKey = "";
 
   function show(name){
     for (var k in screens) screens[k].hidden = (k !== name);
@@ -277,7 +281,7 @@ footer{margin-top:40px;padding-top:20px;border-top:2px dashed #cfc6b8;font-size:
 
   function finish(){
     $("bar").style.width = "100%";
-    var key = winner(); current = PROFILES[key];
+    var key = winner(); current = PROFILES[key]; currentKey = key;
     $("r-title").textContent = current.title;
     $("r-badge").textContent = current.badge;
     $("r-text").textContent = current.text;
@@ -296,12 +300,21 @@ footer{margin-top:40px;padding-top:20px;border-top:2px dashed #cfc6b8;font-size:
     setTimeout(function(){ t.classList.remove("on"); }, 2200);
   }
 
+  // Arrivée via un lien partagé : ?ami=W
+  try {
+    var ami = new URLSearchParams(location.search).get("ami");
+    if (ami && PROFILES[ami]) {
+      $("friend-title").textContent = PROFILES[ami].title;
+      $("friend").hidden = false;
+      $("start").textContent = "Relever le défi";
+    }
+  } catch(e){}
   $("start").addEventListener("click", function(){ reset(); render(); show("quiz"); });
   $("restart").addEventListener("click", function(){ reset(); render(); show("quiz"); });
   $("share").addEventListener("click", function(){
     if (!current) return;
     var text = "Je suis « " + current.title + " » 😂 Et toi, quel survivant es-tu ?";
-    var url = "https://horsdeslignes.fr/quiz/";
+    var url = "https://horsdeslignes.fr/quiz/?ami=" + currentKey;
     if (navigator.share) {
       navigator.share({title:"Quel survivant es-tu ?", text:text, url:url}).catch(function(){});
     } else if (navigator.clipboard) {
