@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quel survivant es-tu ? · Hors des Lignes</title>
+<meta name="description" content="Le test (très sérieux) de Hors des Lignes : réunions, repas de Noël, retraite, salle des profs ou au service d'un chat ? Découvre ton profil et télécharge une page à colorier gratuite.">
+<link rel="canonical" href="https://horsdeslignes.fr/quiz/">
+<meta property="og:title" content="Quel survivant es-tu ? · Hors des Lignes">
+<meta property="og:description" content="7 questions, 1 profil, 1 page à colorier gratuite. Zéro pitié.">
+<meta property="og:image" content="https://horsdeslignes.fr/img/lord-wasabi-page-gratuite.jpg">
+<meta property="og:url" content="https://horsdeslignes.fr/quiz/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#fbf7ef; --ink:#161412; --muted:#5f5850; --line:#161412;
+  --card:#ffffff; --wasabi:#8fae3c; --wasabi-soft:#e7efcf; --accent:#f2c94c;
+  --radius:18px; --shadow:4px 4px 0 var(--ink);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:640px;margin:0 auto;padding:20px 16px 56px}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 18px/1 "Bricolage Grotesque",sans-serif}
+.brand img{width:36px;height:36px;border-radius:8px;border:2px solid var(--ink);object-fit:cover}
+.back{font-size:14px;color:var(--muted)}
+h1,h2,h3{font-family:"Bricolage Grotesque",sans-serif;line-height:1.08;margin:0}
+h1{font-size:clamp(34px,9vw,52px);font-weight:800;letter-spacing:-.02em}
+h2{font-size:clamp(26px,6.5vw,36px);font-weight:800;letter-spacing:-.01em}
+h3{font-size:20px;font-weight:700}
+.kicker{display:inline-block;font:600 13px/1 Inter,sans-serif;text-transform:uppercase;letter-spacing:.08em;background:var(--accent);border:2px solid var(--ink);border-radius:999px;padding:7px 12px;margin-bottom:16px}
+.lead{font-size:18px;color:var(--muted);margin:16px 0 24px}
+.card{background:var(--card);border:2px solid var(--ink);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
+.btn{appearance:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 22px;border:2px solid var(--ink);border-radius:999px;background:var(--ink);color:#fff;font:700 17px/1 "Bricolage Grotesque",sans-serif;text-decoration:none;cursor:pointer;box-shadow:3px 3px 0 var(--wasabi);transition:transform .08s ease}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--wasabi)}
+.btn.alt{background:#fff;color:var(--ink);box-shadow:3px 3px 0 var(--ink)}
+.btn.wide{width:100%}
+.meta{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:14px;color:var(--muted);margin-top:14px}
+.hero-img{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:28px 0 8px}
+.hero-img img{width:100%;aspect-ratio:3/4;object-fit:cover;border:2px solid var(--ink);border-radius:10px;background:#eee}
+/* quiz */
+.progress{height:10px;border:2px solid var(--ink);border-radius:999px;overflow:hidden;background:#fff;margin-bottom:10px}
+.progress span{display:block;height:100%;width:0;background:var(--wasabi);transition:width .25s ease}
+.step{font-size:14px;color:var(--muted);margin-bottom:18px}
+.options{display:grid;gap:12px;margin-top:20px}
+.opt{appearance:none;text-align:left;width:100%;min-height:56px;padding:14px 16px;border:2px solid var(--ink);border-radius:14px;background:#fff;color:var(--ink);font:500 16px/1.4 Inter,sans-serif;cursor:pointer;box-shadow:3px 3px 0 var(--ink);transition:transform .08s ease,background .15s ease}
+.opt:hover{background:var(--wasabi-soft)}
+.opt:active,.opt.picked{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink);background:var(--wasabi-soft)}
+.opt:focus-visible,.btn:focus-visible{outline:3px solid var(--wasabi);outline-offset:3px}
+/* result */
+.result-head{display:grid;gap:18px;align-items:center}
+.result-head img{width:100%;max-width:220px;border:2px solid var(--ink);border-radius:12px;box-shadow:var(--shadow);justify-self:center}
+.badge{display:inline-block;font-size:13px;font-weight:600;background:var(--wasabi-soft);border:2px solid var(--ink);border-radius:999px;padding:5px 10px;margin-bottom:10px}
+.result-text{font-size:17px;margin:14px 0 18px}
+.actions{display:grid;gap:12px}
+.section{margin-top:32px}
+.free{display:grid;gap:18px}
+.free img{width:100%;border:2px solid var(--ink);border-radius:12px;background:#fff}
+.steps{counter-reset:s;list-style:none;padding:0;margin:4px 0 0;display:grid;gap:10px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:32px 1fr;gap:10px;align-items:start}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:32px;height:32px;border:2px solid var(--ink);border-radius:50%;background:var(--accent);font:800 15px/1 "Bricolage Grotesque",sans-serif}
+.tag{font-weight:600;background:var(--wasabi-soft);padding:1px 6px;border-radius:6px;white-space:nowrap}
+.small{font-size:13px;color:var(--muted);line-height:1.5}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%) translateY(120%);background:var(--ink);color:#fff;padding:12px 18px;border-radius:999px;font-weight:600;font-size:15px;transition:transform .2s ease;z-index:10}
+.toast.on{transform:translateX(-50%) translateY(0)}
+[hidden]{display:none!important}
+footer{margin-top:40px;padding-top:20px;border-top:2px dashed #cfc6b8;font-size:14px;color:var(--muted);display:flex;flex-wrap:wrap;gap:8px 16px}
+@media (min-width:560px){
+  .result-head{grid-template-columns:200px 1fr}
+  .result-head img{max-width:none}
+  .actions{grid-template-columns:1fr 1fr}
+  .free{grid-template-columns:220px 1fr;align-items:start}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="https://horsdeslignes.fr/"><img src="https://horsdeslignes.fr/img/logo.jpg" alt="">Hors des Lignes</a>
+    <a class="back" href="https://horsdeslignes.fr/#collection">La collection →</a>
+  </header>
+
+  <!-- ÉCRAN 1 : accueil -->
+  <main id="intro">
+    <span class="kicker">Le test (très sérieux)</span>
+    <h1>Quel survivant es-tu&nbsp;?</h1>
+    <p class="lead">Réunions, repas de famille, retraite, salle des profs… ou au service d'un chat qui se prend pour un seigneur. 7 questions pour savoir ce qui te fait vraiment souffrir.</p>
+    <button class="btn wide" id="start" type="button">Commencer le test</button>
+    <div class="meta"><span>⏱ 1 minute</span><span>🎁 Une page à colorier offerte à la fin</span><span>✉️ Aucune inscription</span></div>
+    <div class="hero-img" aria-hidden="true">
+      <img src="https://horsdeslignes.fr/img/cover-reunions.jpg" alt="">
+      <img src="https://horsdeslignes.fr/img/cover-noel.jpg" alt="">
+      <img src="https://horsdeslignes.fr/img/cover-retraite.jpg" alt="">
+      <img src="https://horsdeslignes.fr/img/cover-profs.jpg" alt="">
+      <img src="../img/lord-wasabi-page-gratuite.jpg" alt="">
+    </div>
+  </main>
+
+  <!-- ÉCRAN 2 : questions -->
+  <main id="quiz" hidden>
+    <div class="progress" aria-hidden="true"><span id="bar"></span></div>
+    <div class="step" id="step" aria-live="polite"></div>
+    <div class="card">
+      <h2 id="question"></h2>
+      <div class="options" id="options"></div>
+    </div>
+  </main>
+
+  <!-- ÉCRAN 3 : résultat -->
+  <main id="result" hidden>
+    <span class="kicker">Ton profil</span>
+    <div class="card">
+      <div class="result-head">
+        <img id="r-img" src="" alt="">
+        <div>
+          <span class="badge" id="r-badge"></span>
+          <h2 id="r-title"></h2>
+        </div>
+      </div>
+      <p class="result-text" id="r-text"></p>
+      <div class="actions">
+        <a class="btn" id="r-cta" href="#" target="_blank" rel="noopener"></a>
+        <button class="btn alt" id="share" type="button">Partager mon résultat</button>
+      </div>
+    </div>
+
+    <!-- Bonus commun à tous : page Lord Wasabi + concours -->
+    <section class="section" id="gratuit">
+      <span class="kicker">Cadeau</span>
+      <h2>Ta page offerte&nbsp;: Lord Wasabi</h2>
+      <p class="lead" style="margin-bottom:18px">En avant-première, une page du prochain livre <em>Meet Lord Wasabi</em>. Un panier tout neuf, et Sa Seigneurie qui choisit le carton. Évidemment.</p>
+      <div class="card free">
+        <img src="../img/lord-wasabi-page-gratuite.jpg" alt="Page à colorier : Lord Wasabi, chat en kimono avec un éventail, trône dans un carton à côté du panier neuf qu'il ignore, sous le regard las de son humaine.">
+        <div>
+          <h3>Colorie-la. Montre-la. Entre peut-être dans le livre.</h3>
+          <ol class="steps" style="margin-top:14px">
+            <li><span><strong>Télécharge</strong> la page et imprime-la chez toi.</span></li>
+            <li><span><strong>Colorie-la</strong> comme tu veux. Sors des lignes, c'est permis.</span></li>
+            <li><span><strong>Publie-la</strong> en taguant <span class="tag">@hors.deslignes</span> sur Instagram ou <span class="tag">@horsdelignes</span> sur TikTok, avec <span class="tag">#LordWasabi</span>.</span></li>
+            <li><span><strong>Les coloriages coups de cœur</strong> pourront être imprimés dans le livre, en exemple, avec ton pseudo.</span></li>
+          </ol>
+          <a class="btn wide" style="margin-top:18px" href="../gratuit/lord-wasabi-page-gratuite.pdf" download>Télécharger la page (PDF)</a>
+          <p class="small" style="margin-top:14px">Participation gratuite et sans achat. Sélection libre par l'auteur. Si ton coloriage est retenu, on te contacte en message privé et rien n'est publié sans ton accord écrit. Ouvert aux 18 ans et plus (ou avec l'accord d'un parent).</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="section" style="text-align:center">
+      <button class="btn alt" id="restart" type="button">Refaire le test</button>
+    </div>
+  </main>
+
+  <footer>
+    <a href="https://horsdeslignes.fr/">horsdeslignes.fr</a>
+    <a href="https://www.instagram.com/hors.deslignes/" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://www.tiktok.com/@horsdelignes" target="_blank" rel="noopener">TikTok</a>
+    <a href="https://www.amazon.fr/stores/L%C3%A9o-Marge/author/B0HLTFVNX5" target="_blank" rel="noopener">Tous les livres sur Amazon</a>
+    <a href="https://horsdeslignes.fr/mentions-legales/">Mentions légales</a>
+  </footer>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+  // R = réunions, N = Noël, T = retraite, P = profs, W = Lord Wasabi
+  var QUESTIONS = [
+    {q:"Ton dimanche soir idéal ?", a:[
+      ["Préparer mentalement la réunion de 9 h du lundi.","R"],
+      ["Corriger des copies. Toujours des copies.","P"],
+      ["Sous un plaid, thé fumant, un chat sur les genoux. Il a choisi, pas toi.","W"],
+      ["Récupérer d'un déjeuner de famille de six heures.","N"],
+      ["Aucun, demain c'est aquagym, potager et garde des petits-enfants.","T"]]},
+    {q:"La phrase qui te glace le sang :", a:[
+      ["« Et alors, toujours pas casé·e ? »","N"],
+      ["« On fait un petit point rapide ? »","R"],
+      ["« Maintenant que t'as le temps, tu pourrais… »","T"],
+      ["« Il a encore vomi. Sur le tapis neuf. »","W"],
+      ["« C'est noté ? »","P"]]},
+    {q:"Ton superpouvoir secret :", a:[
+      ["Repérer un téléphone sous une table à 15 mètres.","P"],
+      ["Être débordé·e sans aucune obligation.","T"],
+      ["Hocher la tête caméra éteinte, sans rien écouter.","R"],
+      ["Comprendre un miaulement de mépris.","W"],
+      ["Changer de sujet dès que tonton parle politique.","N"]]},
+    {q:"Ton objet fétiche :", a:[
+      ["Le stylo rouge.","P"],
+      ["La rallonge de table.","N"],
+      ["Un carton vide. Pas le tien, le sien.","W"],
+      ["Le sécateur.","T"],
+      ["Le mug « pas avant mon café ».","R"]]},
+    {q:"Ce qui te fait perdre patience :", a:[
+      ["Les « répondre à tous ».","R"],
+      ["Un panier à 60 € boudé au profit du carton de livraison.","W"],
+      ["La photocopieuse en panne à 7 h 58.","P"],
+      ["Le débat annuel sur la cuisson de la dinde.","N"],
+      ["Les gens qui pensent que tu t'ennuies.","T"]]},
+    {q:"Ton cri de guerre :", a:[
+      ["« Plus que 37 jours avant les vacances. »","P"],
+      ["« Oui, Votre Seigneurie. »","W"],
+      ["« Ça aurait pu être un mail. »","R"],
+      ["« Je ne suis pas à la retraite, je suis en mission. »","T"],
+      ["« Qui reprend de la bûche ? »","N"]]},
+    {q:"Pour décompresser, tu…", a:[
+      ["…fais une sieste « de cinq minutes » qui dure deux heures.","T"],
+      ["…te réfugies dans la cuisine pour faire la vaisselle.","N"],
+      ["…colories, pendant qu'un chat s'assoit pile sur la page.","W"],
+      ["…fermes Teams. Enfin.","R"],
+      ["…barres un jour de plus sur le calendrier.","P"]]}
+  ];
+
+  var PROFILES = {
+    R:{title:"Le Rescapé des réunions", badge:"Survivre aux réunions",
+       text:"Tu as survécu à 400 « petits points rapides », 12 séminaires de cohésion et une réunion pour préparer la réunion. Ton calendrier est un champ de bataille, et ton bouton « couper le micro » ton meilleur ami. Ce livre a été dessiné pour toi (ou pour le collègue qui le mérite).",
+       img:"https://horsdeslignes.fr/img/cover-reunions.jpg", cta:"Voir le livre sur Amazon", url:"https://www.amazon.fr/dp/B0HLSKL5CM"},
+    N:{title:"Le Survivant du repas de Noël", badge:"Survivre aux repas de Noël",
+       text:"Six heures à table, trois débats politiques, une question sur ta vie amoureuse et la bûche qu'on te ressert de force. Tu connais la recette par cœur, et tu reviens chaque année. Respect. Idéal aussi pour un Secret Santa qui fait rire.",
+       img:"https://horsdeslignes.fr/img/cover-noel.jpg", cta:"Voir le livre sur Amazon", url:"https://www.amazon.fr/dp/B0HLWJ6MKG"},
+    T:{title:"Le Retraité surbooké", badge:"Survivre à la retraite",
+       text:"On t'avait promis du repos. On t'a donné des petits-enfants, un potager, trois associations et une partie de pétanque à haute tension. Ton agenda n'a jamais été aussi rempli. Le cadeau de départ parfait (ou d'arrivée, selon le point de vue).",
+       img:"https://horsdeslignes.fr/img/cover-retraite.jpg", cta:"Voir le livre sur Amazon", url:"https://www.amazon.fr/dp/B0HLXPWF3B"},
+    P:{title:"Le Prof en apnée", badge:"Survivre à l'année scolaire",
+       text:"Dimanche, 22 h, une pile de copies, une photocopieuse capricieuse et un compte à rebours mental avant les vacances. Tu tiens debout grâce au café et à l'amour du métier (surtout au café). Le cadeau de fin d'année que les profs gardent vraiment.",
+       img:"https://horsdeslignes.fr/img/cover-profs.jpg", cta:"Voir le livre sur Amazon", url:"https://www.amazon.fr/dp/B0HM899Z92"},
+    W:{title:"Le Staff de Lord Wasabi", badge:"Meet Lord Wasabi · bientôt",
+       text:"Tu n'as pas de chat. Tu es au service d'un chat. Tu achètes des paniers qu'il ignore, tu dors en virgule pour ne pas le déranger, et tu dis « oui, Votre Seigneurie » sans même t'en rendre compte. Son livre arrive bientôt (en anglais, Sa Seigneurie vise l'international). En attendant, ta page offerte est juste en dessous.",
+       img:"../img/lord-wasabi-page-gratuite.jpg", cta:"Ma page Lord Wasabi offerte ↓", url:"#gratuit"}
+  };
+  var ORDER = ["W","R","N","T","P"]; // départage en cas d'égalité
+
+  var $ = function(id){return document.getElementById(id)};
+  var screens = {intro:$("intro"), quiz:$("quiz"), result:$("result")};
+  var idx = 0, scores = {}, locked = false, current = null;
+
+  function show(name){
+    for (var k in screens) screens[k].hidden = (k !== name);
+    window.scrollTo(0,0);
+  }
+  function reset(){ idx = 0; scores = {R:0,N:0,T:0,P:0,W:0}; locked = false; }
+
+  function render(){
+    var item = QUESTIONS[idx];
+    $("step").textContent = "Question " + (idx+1) + " sur " + QUESTIONS.length;
+    $("bar").style.width = (idx / QUESTIONS.length * 100) + "%";
+    $("question").textContent = item.q;
+    var box = $("options"); box.innerHTML = "";
+    item.a.forEach(function(pair){
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "opt"; b.textContent = pair[0];
+      b.addEventListener("click", function(){ pick(b, pair[1]); });
+      box.appendChild(b);
+    });
+    locked = false;
+  }
+
+  function pick(btn, key){
+    if (locked) return; locked = true;
+    btn.classList.add("picked");
+    scores[key]++;
+    setTimeout(function(){
+      idx++;
+      if (idx < QUESTIONS.length) render(); else finish();
+    }, 220);
+  }
+
+  function winner(){
+    var best = ORDER[0];
+    ORDER.forEach(function(k){ if (scores[k] > scores[best]) best = k; });
+    return best;
+  }
+
+  function finish(){
+    $("bar").style.width = "100%";
+    var key = winner(); current = PROFILES[key];
+    $("r-title").textContent = current.title;
+    $("r-badge").textContent = current.badge;
+    $("r-text").textContent = current.text;
+    $("r-img").src = current.img;
+    $("r-img").alt = "Couverture : " + current.badge;
+    var cta = $("r-cta");
+    cta.textContent = current.cta; cta.href = current.url;
+    if (current.url.charAt(0) === "#") { cta.removeAttribute("target"); }
+    else { cta.setAttribute("target","_blank"); }
+    try { history.replaceState(null, "", "#resultat-" + key); } catch(e){}
+    show("result");
+  }
+
+  function toast(msg){
+    var t = $("toast"); t.textContent = msg; t.classList.add("on");
+    setTimeout(function(){ t.classList.remove("on"); }, 2200);
+  }
+
+  $("start").addEventListener("click", function(){ reset(); render(); show("quiz"); });
+  $("restart").addEventListener("click", function(){ reset(); render(); show("quiz"); });
+  $("share").addEventListener("click", function(){
+    if (!current) return;
+    var text = "Je suis « " + current.title + " » 😂 Et toi, quel survivant es-tu ?";
+    var url = "https://horsdeslignes.fr/quiz/";
+    if (navigator.share) {
+      navigator.share({title:"Quel survivant es-tu ?", text:text, url:url}).catch(function(){});
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(text + " " + url).then(function(){ toast("Lien copié, à toi de jouer !"); }, function(){ toast(url); });
+    } else { toast(url); }
+  });
+})();
+</script>
+</body>
+</html>
