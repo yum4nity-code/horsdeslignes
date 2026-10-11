@@ -41,7 +41,9 @@ header{background:var(--lav);border-bottom:3px solid var(--ink)}
 .nav ul{display:flex;gap:18px;list-style:none;margin:0;padding:0;font-weight:700}
 .nav ul a{text-decoration:none}
 .nav ul a:hover{text-decoration:underline wavy var(--pink)}
-@media(max-width:640px){.nav ul{display:none}}
+.nav ul a.nav-quiz{background:var(--pink);color:#fff;border:2px solid var(--ink);border-radius:999px;padding:6px 14px;box-shadow:3px 3px 0 var(--ink)}
+.nav ul a.nav-quiz:hover{text-decoration:none;transform:translate(-1px,-1px)}
+@media(max-width:640px){.nav ul li{display:none}.nav ul li.li-quiz{display:block}}
 
 /* buttons */
 .btn{display:inline-block;font-weight:800;text-decoration:none;padding:13px 22px;border:3px solid var(--ink);border-radius:999px;box-shadow:4px 4px 0 var(--ink);transition:transform .12s,box-shadow .12s;background:var(--yellow)}
@@ -67,6 +69,20 @@ header{background:var(--lav);border-bottom:3px solid var(--ink)}
   .hero-grid{grid-template-columns:1fr}
   .fan{height:min(78vw,330px)}
 }
+
+/* quiz promo */
+.quizband{background:var(--pink);color:#fff;border-bottom:3px solid var(--ink);padding:64px 0}
+.quiz-grid{display:grid;grid-template-columns:1fr 300px;gap:44px;align-items:center}
+.quizband h2.display{font-size:clamp(2.2rem,5.5vw,3.6rem)}
+.quizband .sub{font-size:1.15rem;color:#fff}
+.quizband .kicker{color:var(--ink)}
+.quiz-facts{display:flex;flex-wrap:wrap;gap:10px;list-style:none;margin:0 0 28px;padding:0}
+.quiz-facts li{background:#fff;color:var(--ink);border:2px solid var(--ink);border-radius:999px;padding:5px 14px;font-weight:800;font-size:.95rem}
+.quizband .btn{font-size:1.15rem;padding:16px 28px;color:var(--ink)}
+.quiz-img{position:relative}
+.quiz-img img{border:3px solid var(--ink);border-radius:8px;box-shadow:6px 6px 0 var(--ink);transform:rotate(3deg);background:#fff}
+.quiz-img .sticker{position:absolute;top:-16px;left:-18px;z-index:1;background:var(--yellow);color:var(--ink);border:3px solid var(--ink);border-radius:999px;padding:6px 14px;font-weight:800;transform:rotate(-8deg);box-shadow:3px 3px 0 var(--ink)}
+@media(max-width:720px){.quiz-grid{grid-template-columns:1fr}.quiz-img{max-width:260px;margin:10px auto 0}}
 
 /* sections */
 section{padding:72px 0}
@@ -132,7 +148,7 @@ footer{background:var(--ink);color:#fff;padding:40px 0;font-size:.95rem}
     <ul>
       <li><a href="#collection">La collection</a></li>
       <li><a href="#gratuit">Page gratuite</a></li>
-      <li><a href="/quiz/">Le test</a></li>
+      <li class="li-quiz"><a class="nav-quiz" href="/quiz/">Le test&nbsp;✨</a></li>
       <li><a href="#auteur">L'auteur</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -147,8 +163,8 @@ footer{background:var(--ink);color:#fff;padding:40px 0;font-size:.95rem}
       <svg class="squiggle" viewBox="0 0 180 22" aria-hidden="true"><path d="M3 12 C 23 -2, 33 26, 53 12 S 83 -2, 103 12 S 133 26, 153 12 S 173 2, 177 8" fill="none" stroke="#ff5fa2" stroke-width="6" stroke-linecap="round"/></svg>
       <p class="lead">Des cahiers de coloriage humoristiques pour adultes. Réunions, repas de famille, retraite, salle des profs&nbsp;: des scènes (trop) réalistes, avec une phrase drôle sous chaque dessin.</p>
       <div class="ctas">
+        <a class="btn pink" href="/quiz/">Quel survivant es-tu&nbsp;? Fais le test</a>
         <a class="btn" href="#collection">Voir la collection</a>
-        <a class="btn alt" href="#gratuit">Une page gratuite</a>
       </div>
     </div>
     <div class="fan" aria-hidden="true">
@@ -157,6 +173,27 @@ footer{background:var(--ink);color:#fff;padding:40px 0;font-size:.95rem}
       <img src="/img/cover-retraite.jpg" alt="" width="600" height="776">
       <img src="/img/cover-profs.jpg" alt="" width="600" height="776">
     </div>
+  </div>
+</section>
+
+<section id="test" class="quizband">
+  <div class="wrap quiz-grid">
+    <div>
+      <span class="kicker">Nouveau · Le test</span>
+      <h2 class="display outlined">Quel survivant <span style="white-space:nowrap">es-tu&nbsp;?</span></h2>
+      <p class="sub">Réunions, repas de famille, retraite, salle des profs… ou au service d'un chat qui se prend pour un seigneur. Réponds, découvre ton profil, et repars avec une page à colorier inédite de <em>Lord Wasabi</em>.</p>
+      <ul class="quiz-facts">
+        <li>⏱ 1 minute</li>
+        <li>7 questions</li>
+        <li>🎁 Page offerte</li>
+        <li>Sans inscription</li>
+      </ul>
+      <a class="btn" href="/quiz/">Faire le test</a>
+    </div>
+    <a class="quiz-img" href="/quiz/" tabindex="-1" aria-hidden="true">
+      <span class="sticker">Offerte&nbsp;!</span>
+      <img src="/img/lord-wasabi-page-gratuite.jpg" alt="" width="1080" height="1435" loading="lazy">
+    </a>
   </div>
 </section>
 
